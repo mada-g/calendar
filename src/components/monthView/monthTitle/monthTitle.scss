@@ -1,0 +1,47 @@
+.monthTitle{
+  position: relative;
+  border: 1px solid black;
+  box-sizing: border-box;
+  padding: 10px;
+}
+
+.monthTitle_container {
+  position: relative;
+  margin: auto;
+  width: 500px;
+  height: 40px;
+  background-color: green;
+}
+
+.monthTitle_txt{
+  color:white;
+  border: 1px solid black;
+  box-sizing: border-box;
+  height: 100%;
+  width: 50%;
+  //position: absolute;
+  //top:0;
+  float: left;
+}
+
+.monthTitle_txt_content{
+
+}
+
+.monthTitle_nav {
+  position: relative;
+  background-color: purple;
+  width: 25%;
+  height: 100%;
+  float: left;
+  box-sizing: border-box;
+  //position: absolute;
+  //top:0;
+}
+
+.monthTitle_nav_arrow {
+  background-color: black;
+  width: 33%;
+  height: 66%;
+  cursor: pointer;
+}

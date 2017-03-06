@@ -1,0 +1,11 @@
+.cells{
+  position: relative;
+  height: 100px;
+  background-color: green;
+}
+
+.cells .cell-content{
+  position: relative;
+  height: 100%;
+  max-width: 100%;
+}

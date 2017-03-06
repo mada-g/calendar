@@ -1,0 +1,25 @@
+.table{
+  background-color: red;
+  position: relative;
+  display: inline;
+}
+
+.table_row{
+  margin-top: 6px;
+}
+
+.table_cell{
+  position: relative;
+  display: inline-block;
+  width: 140px;
+  text-align: center;
+  vertical-align: bottom;
+  margin: 0 3px;
+}
+
+
+.header .table_cell{
+  background-color: green;
+  color:white;
+  font-size: 25px;
+}
