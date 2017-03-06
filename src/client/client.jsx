@@ -3,8 +3,6 @@ import reactDOM from 'react-dom';
 import {createStore, applyMiddleware, dispatch} from 'redux';
 import thunkMiddleware from 'redux-thunk';
 import {Provider} from 'react-redux';
-import {Router, Route, browserHistory, IndexRedirect} from 'react-router';
-import {AppContainer} from 'react-hot-loader';
 import {Map, List, toJS, fromJS} from 'immutable';
 
 import reducer from '../store/reducer.js';
@@ -21,43 +19,23 @@ let store = createStore(reducer, fromJS(initState), applyMiddleware(thunkMiddlew
 
 store.dispatch(actions.populateTable());
 
-
-/**********************
-** ROUTES DEFINITION **
-**********************/
-
-
-
-/*const DayViewTest = (props) => {
-  return <Provider store={store}>
-    <Router history={browserHistory}>
-      <Route path="/" component={AppRoot}>
-        <IndexRedirect to="/date"/>
-        <Route path="date" component={DayView}/>
-      </Route>
-    </Router>
-  </Provider>
-}*/
-
-
 /*****************************************
 ** INJECT ROOT REACT COMPONENT INTO DOM **
 *****************************************/
 
-const renderApp = (TheRoot) => {
+const renderApp = () => {
   reactDOM.render(
-    <AppContainer>
-      <TheRoot store={store} history={browserHistory}/>
-    </AppContainer>,
+    <Provider store={store}>
+      <Root/>
+    </Provider>,
     document.getElementById('react-app')
   );
 }
 
-renderApp(Root);
+renderApp();
 
 if(module.hot) {
   module.hot.accept("../root/root.jsx", () => {
-    const NewRoot = require("../root/root.jsx").default;
-    renderApp(NewRoot);
+    renderApp();
   })
 }

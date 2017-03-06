@@ -3,9 +3,7 @@ import {connect} from 'react-redux';
 import {toJS} from 'immutable';
 
 import "./dayView.scss";
-
 import actions from '../../store/actions.js';
-
 import Diary from './diary/diary.jsx';
 
 const months = ["January", "February", "March", "April", "May", "June",
@@ -63,5 +61,7 @@ function mapState(state){
     state: state.get("viewDay").toJS()
   }
 }
+
+
 
 export default connect(mapState, actions)(DayView);

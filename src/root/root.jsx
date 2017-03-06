@@ -1,25 +1,23 @@
 import React from 'react';
-import {Provider} from 'react-redux';
-//import {Router} from 'react-router';
-import {Router, Route, IndexRedirect} from 'react-router';
+import {BrowserRouter, Route, Redirect} from 'react-router-dom';
 
-import App from '../components/App/app.jsx';
 import MonthView from '../components/monthView/monthView.jsx';
 import DayView from '../components/dayView/dayView.jsx';
-import {main, day} from '../routes/index.jsx';
 
-export default function(props){
-  const {store, history} = props;
-  return <Provider store={store}>
-    <Router history={history}>
-      <Route path="/" component={container(App)}>
-        <IndexRedirect to="/calendar"/>
-        <Route path="calendar" component={container(MonthView)}/>
-        <Route path="date/:year/:month/:day" component={container(DayView)}/>
-      </Route>
-    </Router>
-  </Provider>
+export default class App extends React.Component{
+  constructor(props){
+    super(props);
+  }
+
+  render(){
+    const {children} = this.props;
+
+    return <BrowserRouter>
+      <div className="app">
+        <Route exact path="/calendar" component={MonthView}/>
+        <Route exact path="/date/:year/:month/:day" component={DayView}/>
+      </div>
+    </BrowserRouter>
+  }
+
 }
-
-
-const container = (component) => (props) => <component/>

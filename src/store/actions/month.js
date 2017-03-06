@@ -25,12 +25,12 @@ export function populateTable(){
   }
 }
 
-export function openDay(day){
+export function openDay(day, history){
   return (dispatch) => {
     const {day:d, month:m, year:y, dayOfWeek} = day;
     let str=`${y}/${m+1}/${d}`;
     dispatch({type: "OPEN_DAY", val:day});
-    browserHistory.push(`/date/${str}`);
+    history.push(`/date/${str}`);
   }
 }
 
