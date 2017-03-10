@@ -18,6 +18,11 @@ section,
   transform: translate(-50%, -50%);
 }
 
+.bordered {
+  border: 1px solid black;
+  box-sizing: border-box;
+}
+
 .clearfix::after{
   content: "";
   clear:both;

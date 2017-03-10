@@ -1,40 +1,43 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import {toJS} from 'immutable';
+import {BrowserRouter, HashRouter, Route, Switch} from 'react-router-dom';
 
+import {months, days, resolveSuffix} from '../../utils/utils.js';
 import "./dayView.scss";
 import actions from '../../store/actions.js';
 import Diary from './diary/diary.jsx';
+import DayPanel from './dayPanel/dayPanel.jsx';
+import AddEventDialogue from './AddEventDialogue/AddEventDialogue.jsx';
 
-const months = ["January", "February", "March", "April", "May", "June",
-                    "July", "August", "September", "October", "November", "December"];
-
-const days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
-
-function resolveSuffix(num){
-  if(num > 3 && num < 21) return "th";
-  let c = (""+num).slice(-1);
-  return c==="1" ? "st" : (c==="2" ? "nd" : (c==="3" ? "rd" : "th"));
-}
 
 class DayView extends React.Component{
   constructor(props){
     super(props);
+    this.state = { addEventDialogue : false }
+  }
+
+  toggleEventDialogue = () => {
+    this.setState({ addEventDialogue : !this.state.addEventDialogue });
   }
 
   render(){
-//    const {year, month, day} = this.props.params;
-      const {year, month, day, dayOfWeek} = this.props.state;
-      console.log(this.props.state);
-    return <div className="dayView">
-      <div className="dayView_main">
-        <DayTitle title={this.props.state}/>
-        <div className="dayView_container clearfix">
-          <div className="dayView_container_section"><Diary/></div>
-          <div className="dayView_container_section"></div>
+    const {year, month, day, dayOfWeek, entries} = this.props.state;
+    const callbacks = { toggleEventDialogue : this.toggleEventDialogue,
+                        createEvent : this.props.createEvent };
+
+    console.log("----------");
+    entries.forEach( ({start}) => console.log(start[0] + " - " + start[1]) );
+    console.log("----------");
+
+    return <HashRouter hashType="noslash">
+      <div className="dayView">
+        <div className="dayView_main clearfix">
+          <DayTitle title={this.props.state}/>
+          <DayRouting state={this.props.state} callbacks={callbacks}/>
         </div>
       </div>
-    </div>
+    </HashRouter>
   }
 }
 
@@ -44,6 +47,16 @@ class DayView extends React.Component{
   ** SUB COMPONENTS **
   *******************/
 
+
+function DayRouting(props){
+  const {year, month, day, dayOfWeek, entries} = props.state;
+  const {toggleEventDialogue, createEvent} = props.callbacks;
+
+  return <Switch>
+    <Route path="/newevent" render={p => <AddEventDialogue day={year} createEvent={createEvent}/>} />
+    <Route render={p => <DayContent data={props.state} toggleEventDialogue={toggleEventDialogue}/>}/>
+  </Switch>
+}
 
 
 function DayTitle(props){
@@ -56,12 +69,19 @@ function DayTitle(props){
 }
 
 
+function DayContent({data:{year, month, day, dayOfWeek, entries}, toggleEventDialogue}){
+  return <div className="dayView_container clearfix">
+      <div className="dayView_container_section left"><Diary entries={entries}/></div>
+      <div className="dayView_container_section right"><DayPanel toggleEventDialogue={toggleEventDialogue} /></div>
+    </div>
+}
+
+
 function mapState(state){
   return {
     state: state.get("viewDay").toJS()
   }
 }
-
 
 
 export default connect(mapState, actions)(DayView);

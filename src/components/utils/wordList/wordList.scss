@@ -1,0 +1,32 @@
+.wordList {
+  position: relative;
+  width: 130px;
+  border: 1px solid black;
+  box-sizing: border-box;
+  display: inline-block;
+
+  input {
+    width: 100%;
+    border: none;
+  }
+
+}
+
+.wordList_dropdown {
+  position: relative;
+  background-color: green;
+}
+
+.wordList_item {
+  width: 100%;
+  padding: 3px;
+  box-sizing: border-box;
+  text-align: left;
+
+  color:black;
+  background-color: white;
+  &.focused {
+    background-color: black;
+    color:white;
+  }
+}

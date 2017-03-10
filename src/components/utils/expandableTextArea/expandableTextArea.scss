@@ -1,0 +1,28 @@
+.expandableTextArea {
+  position: relative;
+  //width: 150px;
+  //width: 100%;
+  //display: inline-block;
+  background-color: blue;
+  
+  .inputArea {
+    position: absolute;
+    left: 0;
+    top: 0;
+  }
+  .txtArea {
+    width: 100%;
+    min-height: 44px;
+    border: 1px solid black;
+    overflow: hidden;
+    word-wrap: break-word;
+    resize: none;
+    font-size: 15px;
+    font-family: "Arial";
+    text-align: left;
+    padding: 3px;
+    vertical-align: middle;
+    box-sizing: border-box;
+    //border: 1px solid black;
+  }
+}
