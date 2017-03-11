@@ -22,25 +22,19 @@ class DayView extends React.Component{
   }
 
   render(){
-    const {year, month, day, dayOfWeek, entries} = this.props.state;
     const callbacks = { toggleEventDialogue : this.toggleEventDialogue,
                         createEvent : this.props.createEvent };
-
-    console.log("----------");
-    entries.forEach( ({start}) => console.log(start[0] + " - " + start[1]) );
-    console.log("----------");
 
     return <HashRouter hashType="noslash">
       <div className="dayView">
         <div className="dayView_main clearfix">
-          <DayTitle title={this.props.state}/>
-          <DayRouting state={this.props.state} callbacks={callbacks}/>
+          <DayTitle title={this.props.date}/>
+          <DayRouting date={this.props.date} daydata={this.props.daydata} callbacks={callbacks}/>
         </div>
       </div>
     </HashRouter>
   }
 }
-
 
 
   /*******************
@@ -49,12 +43,11 @@ class DayView extends React.Component{
 
 
 function DayRouting(props){
-  const {year, month, day, dayOfWeek, entries} = props.state;
   const {toggleEventDialogue, createEvent} = props.callbacks;
 
   return <Switch>
-    <Route path="/newevent" render={p => <AddEventDialogue day={year} createEvent={createEvent}/>} />
-    <Route render={p => <DayContent data={props.state} toggleEventDialogue={toggleEventDialogue}/>}/>
+    <Route path="/newevent" render={p => <AddEventDialogue createEvent={createEvent}/>} />
+    <Route render={p => <DayContent daydata={props.daydata} date={props.date} toggleEventDialogue={toggleEventDialogue}/>}/>
   </Switch>
 }
 
@@ -69,9 +62,9 @@ function DayTitle(props){
 }
 
 
-function DayContent({data:{year, month, day, dayOfWeek, entries}, toggleEventDialogue}){
+function DayContent({daydata, toggleEventDialogue}){
   return <div className="dayView_container clearfix">
-      <div className="dayView_container_section left"><Diary entries={entries}/></div>
+      <div className="dayView_container_section left"><Diary daydata={daydata}/></div>
       <div className="dayView_container_section right"><DayPanel toggleEventDialogue={toggleEventDialogue} /></div>
     </div>
 }
@@ -79,7 +72,8 @@ function DayContent({data:{year, month, day, dayOfWeek, entries}, toggleEventDia
 
 function mapState(state){
   return {
-    state: state.get("viewDay").toJS()
+    daydata: state.get("viewDay").toJS(),
+    date: state.get("date").toJS()
   }
 }
 

@@ -1,10 +1,8 @@
 export default {
 
-  date: { year: 2017, month: 0, day: 10 },
+  date: { year: 2017, month: 0, day: 10, dayOfWeek: 0 },
 
   viewMonth: {
-    month: 5,
-    year: 2017,
     table: [],
     days: {
       "day3": { test: "yesyesyes", hols: [], events: [] }
@@ -14,14 +12,20 @@ export default {
   },
 
   viewDay: {
-    year: 2017,
-    month: 0,
-    day: 1,
-    dayOfWeek: 0,
+    metaD : {
+      titles: [],
+      tags: {
+        "tagID" : ["eid"]
+      },
+      people: []
+    },
 
-    entries: [
-      {start: [9,15], end: [10,10], isAllDay: false, description: "", title: "Mia's meeting", entryId: "ijV30x9", tags: []}
-    ]
+    eids: {day: [], reg: ["ijV30x9"]},
+    filtered: {day: [], reg: []},
+
+    events: {
+      "ijV30x9": {start: [9,15], end: [10,10], isAllDay: false, description: "", title: "Mia's meeting", tags: []}
+    }
   },
 
 
@@ -29,11 +33,7 @@ export default {
     events: {
       "2017": {
         "0": {
-          "1" : {
-            entries : [
-              {}
-            ]
-          }
+          "1" : { entries : [{}] }
         }
       }
     }

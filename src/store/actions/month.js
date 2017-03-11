@@ -6,8 +6,8 @@ let calendar = new Calendar(1);
 
 export function populateTable(){
   return (dispatch, getState) => {
-    const currentMonth = getState().getIn(["viewMonth", "month"]);
-    const currentYear = getState().getIn(["viewMonth", "year"]);
+    const currentMonth = getState().getIn(["date", "month"]);
+    const currentYear = getState().getIn(["date", "year"]);
 
     let table = calendar.monthDates(currentYear, currentMonth, (d) => {
       return [d.getDate(), d.getMonth(), d.getFullYear()];
@@ -31,17 +31,5 @@ export function openDay(day, history){
     let str=`${y}/${m+1}/${d}`;
     dispatch({type: "OPEN_DAY", val:day});
     history.push(`/date/${str}`);
-  }
-}
-
-export function changeMonth(newMonth){
-  return (dispatch) => {
-
-    if(newMonth < 0 || newMonth > 11){
-      newMonth < 0 ? dispatch({type: "UPDATE_YEAR", val:-1}) : dispatch({type: "UPDATE_YEAR", val:1});
-    }
-
-    dispatch({ type: "CHANGE_MONTH", val: (12+newMonth)%12 });
-    dispatch(populateTable());
   }
 }

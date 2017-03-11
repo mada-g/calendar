@@ -17,7 +17,7 @@ class MonthView extends React.Component{
   }
 
   render(){
-    const {state: {viewMonth: {month, table, days, dayNames} }} = this.props;
+    const {viewMonth: {table, days, dayNames}, date: {month}} = this.props.state;
     const {openDay, changeMonth} = this.props;
 
     return <div className="monthView">

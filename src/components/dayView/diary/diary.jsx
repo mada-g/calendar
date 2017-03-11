@@ -8,16 +8,16 @@ export default class Diary extends React.Component{
     super(props);
   }
 
-  renderEntries = (entries) => {
-    return entries.map((e) => {
-      return <DiaryEntry data={e}/>
+  renderEntries = (eids, events) => {
+    return eids.map((eid) => {
+      return <DiaryEntry data={events[eid]}/>
     })
   }
 
   render(){
-    const {entries} = this.props;
+    const {eids: {reg}, events} = this.props.daydata;
     return <div className="diary">
-      {this.renderEntries(entries)}
+      {this.renderEntries(reg, events)}
     </div>
   }
 }

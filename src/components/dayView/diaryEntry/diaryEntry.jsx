@@ -18,7 +18,7 @@ export default class DiaryEntry extends React.Component{
   }
 
   render(){
-    const {start, end, title, description, tags, entryId} = this.props.data;
+    const {start, end, title, description, tags, eId} = this.props.data;
 
     return <div className="diaryEntry clearfix">
       <EntryTime start={this.formatTime(start)} end={this.formatTime(end)}/>
