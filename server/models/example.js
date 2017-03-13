@@ -21,4 +21,34 @@ let doc = {
   ]
 }
 
-export default doc;
+
+function genRand(min, range){
+  return Math.floor(Math.random() * range) + min;
+}
+
+function buildData(num){
+  let obj = {
+    username: "Mada",
+    password: "babous",
+    uid: "userMada",
+    days: [
+      {year: 2017, month: 2, dayNum: 20, eId: "aa11", metaD: "meta99999", events: "e"},
+      {year: 2017, month: 2, dayNum: 22, eId: "bb22", metaD: "meta44444", events: "e"}
+    ]
+  };
+
+  for(let i = 0; i < num; i++){
+    obj.days.push({
+      year: genRand(2012, 6),
+      month: genRand(0, 12),
+      dayNum: genRand(0, 27),
+      eId: "id001",
+      events: "e",
+      metaD: ("meta" + genRand(0,100))
+    })
+  }
+
+  return obj;
+}
+
+export default buildData;

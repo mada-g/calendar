@@ -35,10 +35,33 @@ export default class MongoObj {
     })
   }
 
-  getFields(query, fields){
+  findOne(query, fields){
     return new Promise((resolve, reject) => {
+//      if(true) reject("error");
       if(!this.connected || !this.model) reject("not connected");
       this.model.findOne(query, fields, (err, res) => err ? reject(err) : resolve(res));
+      //reject("error");
+    })
+  }
+
+  findAll(query, fields){
+    return new Promise((resolve, reject) => {
+      if(!this.connected || !this.model) reject("not connected");
+      this.model.find(query, fields, (err, res) => err ? reject(err) : resolve(res));
+    })
+  }
+
+  aggregate(pipeline){
+    return new Promise((resolve, reject) => {
+      if(!this.connected || !this.model) reject("not connected");
+      this.model.aggregate(pipeline, (err, res) => err ? reject(err) : resolve(res));
+    })
+  }
+
+  update(query, fields){
+    return new Promise((resolve, reject) => {
+      if(!this.connected || !this.model) reject("not connected");
+      this.model.update(query, fields, (err, res) => err ? reject(err) : resolve(res));
     })
   }
 }
