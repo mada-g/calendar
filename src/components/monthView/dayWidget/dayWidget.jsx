@@ -15,9 +15,12 @@ class DayWidget extends React.Component{
 
   render(){
     const {data, rowNum, colNum:dayOfWeek} = this.props;
-    const {currentMonth, openDay} = this.props;
+    const {currentMonth, openDay, getMetaD} = this.props;
     const {history} = this.props;
     const [day, month, year] = data;
+
+    let metaD = getMetaD(day);
+
     return <div className={`dayWidget ${month===currentMonth ? "in-month" : "out-month"}`}
                 onClick={() => openDay({day, month, year, dayOfWeek}, history)} >
 

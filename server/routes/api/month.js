@@ -1,5 +1,6 @@
 import Router from 'koa-router';
 
+import {unpackMonthData} from "../../utils/formatData.js";
 import {fetchMonthData, fetchDayData, update} from "../../db/queries.js";
 
 export default function(db){
@@ -11,7 +12,9 @@ export default function(db){
     let response = {status: false, data: null};
 
     try {
-      response = {status: true, data: await fetchMonthData(db, year, month)};
+      let data = unpackMonthData(await fetchMonthData(db, year, month));
+      console.log(data);
+      response = {status: true, data};
     } catch (e) {
       console.log(e);
       response = {status: false, data: null};

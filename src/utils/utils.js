@@ -19,3 +19,18 @@ export function strSearch(term, wordlist){
   let matchlist = wordlist.filter(w => expr.test(w));
   return matchlist;
 }
+
+export function isDateValid(year, month, day){
+
+  if(year < 1000 || year > 3000 || month < 0 || month > 11) {
+    return false;
+  }
+
+  let monthLength = [ 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 ];
+
+  if(year % 400 == 0 || (year % 100 != 0 && year % 4 == 0)) {
+    monthLength[1] = 29;
+  }
+
+  return day > 0 && day <= monthLength[month - 1];
+}

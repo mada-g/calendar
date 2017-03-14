@@ -1,6 +1,7 @@
 import koa from 'koa';
 import serve from 'koa-static';
 import mount from 'koa-mount';
+import cors from 'koa-cors';
 import views from 'koa-views';
 
 import Routes from "./routes";
@@ -10,6 +11,7 @@ async function setup(){
 
   const app = new koa();
 
+  app.use(cors({origin: "http://localhost:8080"}));
   app.use(views("./public", {map:{html:"hogan"}} ));
   app.use(serve("public"))
 

@@ -11,3 +11,17 @@ export function changeMonth(newMonth){
     dispatch(populateTable());
   }
 }
+
+export function setCurrentDate(){
+  return (dispatch) => {
+    let now = new Date();
+
+    dispatch({
+      type: "SET_DATE",
+      val: { year: now.getFullYear(),
+             month: now.getMonth(),
+             day: now.getDate(),
+             dayOfWeek: now.getDay() }
+    });
+  }
+}

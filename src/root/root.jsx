@@ -15,7 +15,9 @@ export default class App extends React.Component{
     return <BrowserRouter>
       <div className="app">
         <Route exact path="/calendar" component={MonthView}/>
-        <Route exact path="/date/:year/:month/:day" component={DayView}/>
+        <Route exact path="/date/:year/:month/:day"
+               render={ ({match}) => <DayView routeParams={match.params}/> }
+               />
       </div>
     </BrowserRouter>
   }

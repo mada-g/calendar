@@ -37,10 +37,8 @@ export default class MongoObj {
 
   findOne(query, fields){
     return new Promise((resolve, reject) => {
-//      if(true) reject("error");
       if(!this.connected || !this.model) reject("not connected");
       this.model.findOne(query, fields, (err, res) => err ? reject(err) : resolve(res));
-      //reject("error");
     })
   }
 

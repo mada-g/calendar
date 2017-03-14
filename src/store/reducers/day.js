@@ -31,6 +31,13 @@ export default function(state = Map(), action){
                   .setIn(["events", eId], fromJS(action.val));
     }
 
+    case "SET_DAY_IN_FOCUS": {
+      const {year, month, day} = action.val;
+      return state.set("year", year)
+                  .set("month", month)
+                  .set("day", day);
+    }
+
     default: {
       return state;
     }

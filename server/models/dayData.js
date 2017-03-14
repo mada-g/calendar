@@ -1,10 +1,10 @@
 import mongoose from 'mongoose';
 
 export default mongoose.Schema({
-  eId: String,
+  dId: String,
   year: Number,
   month: Number,
   dayNum: Number,
   metaD: String,
-  events: String
+  eventsData: String
 })

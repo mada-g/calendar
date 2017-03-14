@@ -2,6 +2,8 @@ import {Map, List, fromJS, toJS} from 'immutable';
 import {Calendar} from "calendar";
 import {browserHistory} from 'react-router';
 
+import {fetchMonthData} from "../../utils/fetch-data.js";
+
 let calendar = new Calendar(1);
 
 export function populateTable(){
@@ -28,8 +30,22 @@ export function populateTable(){
 export function openDay(day, history){
   return (dispatch) => {
     const {day:d, month:m, year:y, dayOfWeek} = day;
+
     let str=`${y}/${m+1}/${d}`;
+
     dispatch({type: "OPEN_DAY", val:day});
     history.push(`/date/${str}`);
+  }
+}
+
+export function setMonthData(data){
+  return { type: "SET_MONTH_DATA", val:data }
+}
+
+export function syncMonthData(){
+  return (dispatch) => {
+    fetchMonthData(2011, 11).then(res => {
+      dispatch(setMonthData(res));
+    });
   }
 }

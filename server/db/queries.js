@@ -2,7 +2,7 @@
 export async function fetchMonthData(db, year, month){
   let res = null;
   let selectedFields = { "metaD"  : "$days.metaD",
-                         "eId"    : "$days.eId",
+                         "dId"    : "$days.dId",
                          "dayNum" : "$days.dayNum" };
 
   try{
@@ -27,10 +27,12 @@ export async function fetchMonthData(db, year, month){
   return res[0]["days"];
 }
 
-export async function fetchDayData(db, eId){
+export async function fetchDayData(db, dId){
   let res = null;
 
-  try { res = await db.findOne( {username: "Mada", "days.eId": eId},
+  console.log(dId);
+
+  try { res = await db.findOne( {username: "Mada", "days.dId": dId},
                                 {"days.$": 1} ); }
 
   catch (e) { throw e; }
@@ -41,11 +43,11 @@ export async function fetchDayData(db, eId){
 }
 
 
-export async function update(db, eId){
-  let mock = {year: 2011, month: 11, dayNum: 11, eId: eId, metaD: "MMMMMM", events: "EEEEE"};
+export async function update(db, dId){
+  let mock = {year: 2011, month: 11, dayNum: 11, dId: dId, metaD: "MMMMMM", events: "EEEEE"};
   let res = null;
 
-  try { res = await db.update( {username:"Mada", "days.eId": eId},
+  try { res = await db.update( {username:"Mada", "days.dId": dId},
                                {$set: {"days.$": mock}} ); }
 
   catch (e) { throw e; }
@@ -55,8 +57,8 @@ export async function update(db, eId){
   return true;
 }
 
-export async function createDay(db, eId){
-  let mock = {year: 2010, month: 1, dayNum: 1, eId: eId, metaD: "MMMMMM", events: "EEEEE"};
+export async function createDay(db, dId){
+  let mock = {year: 2010, month: 1, dayNum: 1, dId: dId, metaD: "MMMMMM", events: "EEEEE"};
   let res = null;
 
   try { res = await db.update( {username:"Mada"},

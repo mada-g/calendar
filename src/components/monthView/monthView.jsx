@@ -14,17 +14,24 @@ import MonthTitle from './monthTitle/monthTitle.jsx';
 class MonthView extends React.Component{
   constructor(props){
     super(props);
+    props.populateTable();
+    props.syncMonthData();
+  }
+
+  getDayMetaD = (dayNum) => {
+    const {daysMetaD} = this.props;
+    return daysMetaD.hasOwnProperty(`d${dayNum}`) ? daysMetaD[`d${dayNum}`] : null;
   }
 
   render(){
-    const {viewMonth: {table, days, dayNames}, date: {month}} = this.props.state;
+    const {viewMonth: {table, daysMetaD, dayNames}, date: {month}} = this.props.state;
     const {openDay, changeMonth} = this.props;
 
     return <div className="monthView">
       <MonthTitle month={month} changeMonth={changeMonth}/>
       <div className="monthView_table">
         <WeekHeader labels={dayNames}/>
-        <Table data={table} cell={<DayWidget currentMonth={month} openDay={openDay}/>} />
+        <Table data={table} cell={<DayWidget currentMonth={month} openDay={openDay} getMetaD={getDayMetaD}/>} />
       </div>
     </div>
   }

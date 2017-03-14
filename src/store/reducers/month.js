@@ -6,8 +6,8 @@ export default function(state = Map(), action){
       return state.set("table", action.val);
     }
 
-    case "OPEN_DAY": {
-      return state;
+    case "SET_MONTH_DATA": {
+      return state.set("daysMetaD", action.val);
     }
 
     default: {

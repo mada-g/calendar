@@ -17,7 +17,8 @@ import './style.scss';
 
 let store = createStore(reducer, fromJS(initState), applyMiddleware(thunkMiddleware));
 
-store.dispatch(actions.populateTable());
+store.dispatch(actions.setCurrentDate());
+//store.dispatch(actions.populateTable());
 
 /*****************************************
 ** INJECT ROOT REACT COMPONENT INTO DOM **

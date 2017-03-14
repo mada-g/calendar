@@ -14,6 +14,8 @@ import AddEventDialogue from './AddEventDialogue/AddEventDialogue.jsx';
 class DayView extends React.Component{
   constructor(props){
     super(props);
+    const {year, month, day} = props.routeParams;
+    props.setOpenDay(year, month, day);
     this.state = { addEventDialogue : false }
   }
 
@@ -25,10 +27,12 @@ class DayView extends React.Component{
     const callbacks = { toggleEventDialogue : this.toggleEventDialogue,
                         createEvent : this.props.createEvent };
 
+
+
     return <HashRouter hashType="noslash">
       <div className="dayView">
         <div className="dayView_main clearfix">
-          <DayTitle title={this.props.date}/>
+          <DayTitle title={this.props.date} isInDB = {this.props.daydata.inDbFlag}/>
           <DayRouting date={this.props.date} daydata={this.props.daydata} callbacks={callbacks}/>
         </div>
       </div>
@@ -73,7 +77,11 @@ function DayContent({daydata, toggleEventDialogue}){
 function mapState(state){
   return {
     daydata: state.get("viewDay").toJS(),
-    date: state.get("date").toJS()
+    date: {
+      year: state.getIn(["viewDay", "year"]),
+      month: state.getIn(["viewDay", "month"]),
+      day: state.getIn(["viewDay", "day"]),
+    }
   }
 }
 
