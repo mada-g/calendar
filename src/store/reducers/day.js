@@ -1,10 +1,12 @@
 import {List, Map, fromJS} from 'immutable';
 
+const clearedDayEvents = fromJS({day: [], reg: []});
+
 export default function(state = Map(), action){
   switch (action.type) {
 
     case "CREATE_REG_EVENT": {
-      const {eId, title, start, end, description, isAllDay} = action.val;
+      const {eId, title, start, end, description, isAllDay, tags} = action.val;
       let index = null;
       let events = state.get("events");
       state.getIn(["eids","reg"]).forEach((entry,i,th) => {
@@ -18,11 +20,9 @@ export default function(state = Map(), action){
 
       if(index === null) index = state.getIn(["eids","reg"]).size;
 
-      let _state = insertInMeta(state, "tags", ["New", "Babou", "Mia"], eId);
-
+      let _state = insertTags(state, tags, eId);
       return _state.updateIn(["eids","reg"], e => e.insert(index, eId))
                   .setIn(["events", eId], fromJS(action.val))
-
     }
 
     case "CREATE_DAY_EVENT": {
@@ -32,10 +32,27 @@ export default function(state = Map(), action){
     }
 
     case "SET_DAY_IN_FOCUS": {
-      const {year, month, day} = action.val;
-      return state.set("year", year)
-                  .set("month", month)
-                  .set("day", day);
+      const {year, month, day, dayOfWeek} = action.val;
+      return state.set("date", Map({year, month, dayNum:day, dayOfWeek}));
+    }
+
+    case "CLEAR_DAY_DATA": {
+      return state.set("metaD", Map())
+                  .set("eids", clearedDayEvents)
+                  .set("filtered", clearedDayEvents)
+                  .set("events", Map());
+    }
+
+    case "SET_DAY_DATA": {
+      const data = fromJS(action.val);
+      return state.set("metaD", data.get("metaD"))
+                  .set("eids", data.get("eids"))
+                  .set("filtered", data.get("filtered"))
+                  .set("events", data.get("events"))
+    }
+
+    case "SET_ALL_TAGS": {
+      return state.set("allTags", fromJS(action.val));
     }
 
     default: {
@@ -43,6 +60,15 @@ export default function(state = Map(), action){
     }
 
   }
+}
+
+
+function insertTags(state, tags, eId){
+  let _state = state;
+  tags.forEach(t => {
+    _state = _state.updateIn(["metaD", "tags", t], List(), eIds => eIds.push(eId))
+  })
+  return _state;
 }
 
 function insertInMeta(state, type, vals, eid){

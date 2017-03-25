@@ -1,4 +1,4 @@
-import {Map, List} from "immutable";
+import {Map, List, fromJS, toJS} from "immutable";
 
 export default function(state = Map(), action){
   switch (action.type) {
@@ -8,6 +8,10 @@ export default function(state = Map(), action){
 
     case "SET_MONTH_DATA": {
       return state.set("daysMetaD", action.val);
+    }
+
+    case "POPULATE_TAGS": {
+      return state.set("tags", fromJS(action.val) || List());
     }
 
     default: {

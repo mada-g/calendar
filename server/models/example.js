@@ -4,7 +4,9 @@ let metaD = {
   tags: {
     "tagID" : ["eid"]
   },
-  people: []
+  people: {
+    "person" : ["eid"]    
+  }
 }
 
 let eventsData = {
@@ -29,6 +31,8 @@ function buildData(num){
     username: "Mada",
     password: "babous",
     uid: "userMada",
+    tags: [],
+    people: [],
     days: [
       {year: 2017, month: 2, dayNum: 20, dId: "y2017m2d20", metaD: _metaD, eventsData: _eventsData},
       {year: 2017, month: 2, dayNum: 22, dId: "y2017m2d22", metaD: _metaD, eventsData: _eventsData}

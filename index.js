@@ -13,17 +13,3 @@ console.log("##  The application is served at http://localhost:8080/  ##");
 console.log("##                                                       ##");
 console.log("###########################################################");
 console.log("\n");
-
-var cal = require("calendar");
-
-var c = new cal.Calendar(1);
-
-var m = c.monthDates(2017, 1, function(d){
-  return d.getDate();
-});
-
-//console.log(m);
-
-m.forEach(function(w){
-  console.log(w);
-});

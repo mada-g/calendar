@@ -7,5 +7,7 @@ export default mongoose.Schema({
   username: String,
   password: String,
   uid: String,
-  days: [dayData]
+  days: [dayData],
+  tags: [String],
+  people: [String]  
 })

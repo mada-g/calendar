@@ -32,37 +32,65 @@ export async function fetchDayData(db, dId){
 
   console.log(dId);
 
+/*
   try { res = await db.findOne( {username: "Mada", "days.dId": dId},
-                                {"days.$": 1} ); }
+                                {"days.$": 1, "tags": 1} ); }
+*/
+
+  try {
+    res = await db.aggregate([
+      { $match: {username: "Mada"} },
+      {$project: {
+        days: {$filter: {
+          input: "$days",
+          as: "day",
+          cond: {$eq: ["$$day.dId", dId]},
+        }},
+        "tags": 1
+      }}
+    ])
+  }
 
   catch (e) { throw e; }
 
-  if(!res || !res["days"] || !res["days"][0]) throw "no data";
+  if(!res[0]) throw "error";
 
-  return res["days"][0];
+  return res[0];
 }
 
 
-export async function update(db, dId){
-  let mock = {year: 2011, month: 11, dayNum: 11, dId: dId, metaD: "MMMMMM", events: "EEEEE"};
+export async function update(db, data){
+//  let mock = {year: 2011, month: 11, dayNum: 11, dId: dId, metaD: "MMMMMM", events: "EEEEE"};
   let res = null;
+  console.log("%%%%%%%%%%%%%%%%%%%%%");
+  console.log(data);
+  console.log("%%%%%%%%%%%%%%%%%%%%%");
 
-  try { res = await db.update( {username:"Mada", "days.dId": dId},
-                               {$set: {"days.$": mock}} ); }
+  try { res = await db.update( {username:"Mada", "days.dId": data.main.dId},
+                               {
+                                 $set: {"days.$": data.main},
+                                 $addToSet: {"tags": {$each: data.tags}}
+                               }
+                             ); }
 
   catch (e) { throw e; }
 
-  if(!res || res["nModified"] == 0 ) throw "no update";
+  if(!res) throw "error";
 
-  return true;
+  else if(res["nModified"] == 0 ) return false;
+  else return true;
 }
 
-export async function createDay(db, dId){
-  let mock = {year: 2010, month: 1, dayNum: 1, dId: dId, metaD: "MMMMMM", events: "EEEEE"};
+export async function createDay(db, data){
+  //let mock = {year: 2010, month: 1, dayNum: 1, dId: dId, metaD: "MMMMMM", events: "EEEEE"};
   let res = null;
 
   try { res = await db.update( {username:"Mada"},
-                               {$push: {"days": mock}} ); }
+                               {
+                                 $push: {"days": data.main},
+                                 $addToSet: {"tags": {$each: data.tags}}
+                               }
+                             ); }
 
   catch (e) { throw e; }
 

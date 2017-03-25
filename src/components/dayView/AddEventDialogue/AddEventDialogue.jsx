@@ -17,7 +17,7 @@ class AddEventDialogue extends React.Component{
       title       : "New Event",
       isAllDay    : false,
       description : "faef efw",
-      tags        : []
+      tags        : {}
     }
   }
 
@@ -25,23 +25,38 @@ class AddEventDialogue extends React.Component{
     this.props.createEvent(this.state, this.props.history);
   }
 
+  addTag = (txt) => {
+    let _tags = Object.assign({}, this.state.tags, {[txt] : true});
+    this.setState({ tags: _tags });
+  }
+
   setVal = key => val => this.setState({[key] : val});
 
   render(){
     const {duration, title, isAllDay, description, tags} = this.state;
-    let tagsList = ["abou", "babos", "bobous", "babousy", "habou", "babous", "bobaus", "babbou", "babouz"];
+    const {allTags} = this.props;
+
+    console.log(tags);
 
     return <div className="addEventDialogue">
       <CloseButton />
+
       <Title val={title} setVal={this.setVal("title")}/>
+
       <EventType val={isAllDay} setVal={this.setVal("isAllDay")}/>
+
       {isAllDay ? null : <Duration val={duration} setVal={this.setVal("duration")}/>}
+
       <Description val={description} setVal={this.setVal("description")}/>
-      <AddTags val={tags} tagsList={tagsList} setVal={this.setVal("tags")}/>
+
+      <AddTags tags={tags} allTags={allTags} addTag={this.addTag} />
+
       <SubmitButton handleClick = {this.handleCreate}/>
+
     </div>
   }
 }
+
 
 function SubmitButton(props){
   return <div className="eventDialogue_box">

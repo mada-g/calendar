@@ -10,12 +10,13 @@ function fetchData(url){
 
 export function fetchMonthData(year, month){
   return fetchData(`${baseUrl}/month-data/${year}/${month}`)
-                  .then(res => res.data)
                   .catch(e => null);
 }
 
 export function fetchDayData(year, month, day){
-  return fetchData(`${baseUrl}/day-data/${year}/${month}/${day}`)
-                  .then(res => res.data)
-                  .catch(e => null);
+  return fetchData(`${baseUrl}/day-data/read/${year}/${month}/${day}`)
+                  .catch(e => {
+                    console.log(e);
+                    return null;
+                  })
 }

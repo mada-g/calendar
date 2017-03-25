@@ -16,6 +16,7 @@ export default class Diary extends React.Component{
 
   render(){
     const {eids: {reg}, events} = this.props.daydata;
+    console.log(this.props.daydata);
     return <div className="diary">
       {this.renderEntries(reg, events)}
     </div>

@@ -38,14 +38,42 @@ export function openDay(day, history){
   }
 }
 
+export function gatherTags(){
+  return (dispatch, getState) => {
+    let tagsObj = {}, tags = [];
+
+    let days = getState().getIn(["viewMonth", "daysMetaD"]);
+    if(days) days = days.toJS();
+
+    for(let d in days){
+      const dayTags = days[d]["metaD"]["tags"] || null;
+      if(dayTags)
+        dayTags.forEach(t => tagsObj[t]=true)
+    }
+
+    for(let k in tagsObj){
+      if(tagsObj.hasOwnProperty(k)) tags.push(k);
+    }
+
+    dispatch({type: "POPULATE_TAGS", val: tags});
+  }
+
+}
+
 export function setMonthData(data){
-  return { type: "SET_MONTH_DATA", val:data }
+  return (dispatch, getState) => {
+    dispatch({ type: "SET_MONTH_DATA", val:data });
+    dispatch(gatherTags());
+  }
 }
 
 export function syncMonthData(){
   return (dispatch) => {
     fetchMonthData(2011, 11).then(res => {
-      dispatch(setMonthData(res));
+      if(res && res.status && res.hasOwnProperty("data")){
+        dispatch(setMonthData(res.data));
+      }
     });
+
   }
 }

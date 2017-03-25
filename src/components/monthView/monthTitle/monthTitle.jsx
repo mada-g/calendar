@@ -1,4 +1,5 @@
 import React from 'react';
+import debounce from 'lodash.debounce';
 
 import "./monthTitle.scss";
 
@@ -11,7 +12,14 @@ export default class MonthTitle extends React.Component{
     super(props);
   }
 
-  navHandler = (newMonth) => () => this.props.changeMonth(newMonth);
+  syncMonth = debounce((n) => {
+    console.log("sync... " + n);
+  }, 500)
+
+  navHandler = (newMonth) => () => {
+    this.props.changeMonth(newMonth);
+    this.syncMonth(months[newMonth]);
+  }
 
   render(){
     const {month} = this.props;
@@ -26,6 +34,7 @@ export default class MonthTitle extends React.Component{
     </div>
   }
 }
+
 
 /*******************
 ** SUB COMPONENTS **

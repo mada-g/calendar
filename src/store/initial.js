@@ -5,13 +5,18 @@ export default {
   viewMonth: {
     dayNames: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
     table: [],
-    daysMetaD: {"d4": {metaD: {}, eId: "qqq"}},
+    daysMetaD: {"d4": {metaD: {tags: ["aaa", "bbb", "fff"]}, eId: "qqq"}},
+    tags: []
   },
 
   viewDay: {
-    year: 2017,
-    month: 11,
-    dayNum: 11,
+    date: {
+      year: 2017,
+      month: 11,
+      dayNum: 11,
+      dayOfWeek: 0
+    },
+    allTags: [],
     metaD : {
       titles: [],
       tags: {
@@ -26,7 +31,7 @@ export default {
     events: {
       "ijV30x9": {start: [9,15], end: [10,10], isAllDay: false, description: "", title: "Mia's meeting", tags: []}
     }
-  }
+  },
 
 
 }

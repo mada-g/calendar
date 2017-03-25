@@ -19,19 +19,26 @@ class MonthView extends React.Component{
   }
 
   getDayMetaD = (dayNum) => {
-    const {daysMetaD} = this.props;
+    const {daysMetaD} = this.props.monthdata;
     return daysMetaD.hasOwnProperty(`d${dayNum}`) ? daysMetaD[`d${dayNum}`] : null;
   }
 
   render(){
-    const {viewMonth: {table, daysMetaD, dayNames}, date: {month}} = this.props.state;
+    const {table, daysMetaD, dayNames, tags} = this.props.monthdata;
+    const {month} = this.props.date;
+    //const {viewMonth: {table, daysMetaD, dayNames}, date: {month}} = this.props.state;
+
     const {openDay, changeMonth} = this.props;
+
+    console.log("$$$$$$$$$$$$$$$$$$");
+    console.log(tags);
+    console.log("$$$$$$$$$$$$$$$$$$");
 
     return <div className="monthView">
       <MonthTitle month={month} changeMonth={changeMonth}/>
       <div className="monthView_table">
         <WeekHeader labels={dayNames}/>
-        <Table data={table} cell={<DayWidget currentMonth={month} openDay={openDay} getMetaD={getDayMetaD}/>} />
+        <Table data={table} cell={<DayWidget currentMonth={month} openDay={openDay} getMetaD={this.getDayMetaD}/>} />
       </div>
     </div>
   }
@@ -48,7 +55,8 @@ function WeekHeader(props){
 
 function mapState(state){
   return {
-    state: state.toJS()
+    monthdata: state.get("viewMonth").toJS(),
+    date: state.get("date").toJS()
   }
 }
 
