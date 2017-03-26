@@ -10,3 +10,54 @@
   color: white;
   cursor: pointer;
 }
+
+
+.dayPanel_box{
+  border: 1px solid black;
+  box-sizing: border-box;
+  margin: 5px 0;
+}
+
+.filterBasket{
+  position: relative;
+  box-sizing: border-box;
+  padding: 5px;
+  margin: 3px 0;
+  min-height: 20px;
+  background-color: lightgrey;
+}
+
+.filterPanel{
+  position: relative;
+  width: 100%;
+  text-align: center;
+  padding: 5px;
+  box-sizing: border-box;
+}
+
+.filterPanel_list{
+  position: relative;
+  width: 50%;
+  border: 1px solid red;
+  box-sizing: border-box;
+  margin: auto;
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.filterPanel_btn{
+  display: inline-block;
+  vertical-align: middle;
+  padding: 3px;
+  margin-left: 5px;
+  background-color: red;
+  cursor: pointer;
+}
+
+.filterPanel_field{
+  position: relative;
+  width: 100%;
+  background-color: grey;
+  min-height: 20px;
+  margin-top: 5px;
+}

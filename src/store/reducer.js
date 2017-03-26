@@ -4,11 +4,11 @@ import {Map, List, fromJS, toJS} from 'immutable';
 import month from './reducers/month.js';
 import day from './reducers/day.js';
 import date from './reducers/date.js';
-import appData from './reducers/appData.js';
+import appUI from './reducers/appUI.js';
 
 export default combineReducers({
   date: date,
   viewMonth: month,
   viewDay: day,
-  appData: appData
+  appUI: appUI
 });

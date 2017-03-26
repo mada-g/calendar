@@ -2,10 +2,10 @@
 let metaD = {
   titles: [],
   tags: {
-    "tagID" : ["eid"]
+    "tagID" : {"eid": true}
   },
   people: {
-    "person" : ["eid"]    
+    "person" : {"eid": true}
   }
 }
 

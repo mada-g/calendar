@@ -39,7 +39,7 @@ export function listFromKeys(obj){
   if(!obj) return [];
   let arr = [];
   for(let k in obj){
-    if(obj.hasOwnProperty(k)) arr.push(k);
+    if(obj.hasOwnProperty(k) && obj[k]) arr.push(k);
   }
   return arr;
 }

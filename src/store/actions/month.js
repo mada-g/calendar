@@ -46,9 +46,9 @@ export function gatherTags(){
     if(days) days = days.toJS();
 
     for(let d in days){
-      const dayTags = days[d]["metaD"]["tags"] || null;
-      if(dayTags)
-        dayTags.forEach(t => tagsObj[t]=true)
+      const dayTags = days[d]["metaD"]["tags"] || {};
+      for(let t in dayTags)
+        if(dayTags.hasOwnProperty(t)) tagsObj[t] = true;
     }
 
     for(let k in tagsObj){

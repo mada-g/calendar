@@ -5,7 +5,7 @@ export default {
   viewMonth: {
     dayNames: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
     table: [],
-    daysMetaD: {"d4": {metaD: {tags: ["aaa", "bbb", "fff"]}, eId: "qqq"}},
+    daysMetaD: {"d4": {metaD: {tags: {}}, eId: "qqq"}},
     tags: []
   },
 
@@ -20,7 +20,7 @@ export default {
     metaD : {
       titles: [],
       tags: {
-        "tagID" : ["eid"]
+        "tagID" : {"eid": true}
       },
       people: []
     },
@@ -33,5 +33,8 @@ export default {
     }
   },
 
+  appUI: {
+    dayFilter: {}
+  }
 
 }

@@ -1,9 +1,9 @@
 import React from 'react';
 import {connect} from 'react-redux';
-import {toJS} from 'immutable';
+import {Map, List, toJS} from 'immutable';
 import {BrowserRouter, HashRouter, Route, Switch} from 'react-router-dom';
 
-import {months, days, resolveSuffix} from '../../utils/utils.js';
+import {months, days, resolveSuffix, listFromKeys} from '../../utils/utils.js';
 import "./dayView.scss";
 import actions from '../../store/actions.js';
 import Diary from './diary/diary.jsx';
@@ -25,16 +25,18 @@ class DayView extends React.Component{
   }
 
   render(){
-    const {allTags, date, daydata} = this.props;
-    const callbacks = { toggleEventDialogue : this.toggleEventDialogue,
-                        createEvent : this.props.createEvent };
-
+    const {allTags, date, daydata, createEvent, filter} = this.props;
 
     return <HashRouter hashType="noslash">
       <div className="dayView">
         <div className="dayView_main clearfix">
           <DayTitle title={date}/>
-          <DayRouting allTags={allTags} date={date} daydata={daydata} callbacks={callbacks}/>
+
+          <Switch>
+            <Route path="/newevent" render={p => <AddEventDialogue createEvent={createEvent} allTags={allTags}/>} />
+            <Route render={p => <DayContent filter={filter} daydata={daydata} date={date} toggleEventDialogue={this.toggleEventDialogue}/>}/>
+          </Switch>
+
         </div>
       </div>
     </HashRouter>
@@ -46,23 +48,9 @@ class DayView extends React.Component{
   ** SUB COMPONENTS **
   *******************/
 
-
-function DayRouting(props){
-  const {toggleEventDialogue, createEvent} = props.callbacks;
-  const {allTags, daydata, date} = props;
-
-  return <Switch>
-    <Route path="/newevent" render={p => <AddEventDialogue createEvent={createEvent} allTags={allTags}/>} />
-    <Route render={p => <DayContent daydata={daydata} date={date} toggleEventDialogue={toggleEventDialogue}/>}/>
-  </Switch>
-}
-
-
 function DayTitle(props){
   const {year, month, dayNum:day, dayOfWeek} = props.title;
-  console.log("-----------");
-  console.log(props.title);
-  console.log("-----------");
+
   return <div className="dayView_dayTitle">
     <div className="dayView_dayTitle_content">
       {`${days[dayOfWeek]}, ${months[month]} ${day}${resolveSuffix(day)} ${year}.`}
@@ -71,19 +59,29 @@ function DayTitle(props){
 }
 
 
-function DayContent({daydata, toggleEventDialogue}){
+function DayContent({daydata, filter, toggleEventDialogue}){
   return <div className="dayView_container clearfix">
-      <div className="dayView_container_section left"><Diary daydata={daydata}/></div>
-      <div className="dayView_container_section right"><DayPanel toggleEventDialogue={toggleEventDialogue} /></div>
+      <div className="dayView_container_section left"><Diary filter={filter} daydata={daydata}/></div>
+      <div className="dayView_container_section right"><DayPanel filter={filter} toggleEventDialogue={toggleEventDialogue} /></div>
     </div>
 }
 
 
 function mapState(state){
+  let _filteredTags = state.getIn(["appUI", "dayFilter", "tags"], Map()).toJS();
+  let _filteredPeople = state.getIn(["appUI", "dayFilter", "people"], Map()).toJS();
+
+
   return {
     daydata: state.get("viewDay").toJS(),
     date: state.getIn(["viewDay", "date"]).toJS(),
-    allTags: state.getIn(["viewDay", "allTags"]).toJS()
+    allTags: state.getIn(["viewDay", "allTags"]).toJS(),
+
+    filter: {
+      tags: listFromKeys(_filteredTags),
+      people: listFromKeys(_filteredPeople)
+    }
+
   }
 }
 

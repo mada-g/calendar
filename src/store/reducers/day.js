@@ -39,6 +39,7 @@ export default function(state = Map(), action){
     case "CLEAR_DAY_DATA": {
       return state.set("metaD", Map())
                   .set("eids", clearedDayEvents)
+                  .set("filter", {})
                   .set("filtered", clearedDayEvents)
                   .set("events", Map());
     }
@@ -55,6 +56,10 @@ export default function(state = Map(), action){
       return state.set("allTags", fromJS(action.val));
     }
 
+    case "ADD_FILTER": {
+
+    }
+
     default: {
       return state;
     }
@@ -66,7 +71,7 @@ export default function(state = Map(), action){
 function insertTags(state, tags, eId){
   let _state = state;
   tags.forEach(t => {
-    _state = _state.updateIn(["metaD", "tags", t], List(), eIds => eIds.push(eId))
+    _state = _state.setIn(["metaD", "tags", t, eId], true);
   })
   return _state;
 }

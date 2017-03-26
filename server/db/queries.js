@@ -60,7 +60,6 @@ export async function fetchDayData(db, dId){
 
 
 export async function update(db, data){
-//  let mock = {year: 2011, month: 11, dayNum: 11, dId: dId, metaD: "MMMMMM", events: "EEEEE"};
   let res = null;
   console.log("%%%%%%%%%%%%%%%%%%%%%");
   console.log(data);
@@ -82,7 +81,6 @@ export async function update(db, data){
 }
 
 export async function createDay(db, data){
-  //let mock = {year: 2010, month: 1, dayNum: 1, dId: dId, metaD: "MMMMMM", events: "EEEEE"};
   let res = null;
 
   try { res = await db.update( {username:"Mada"},
