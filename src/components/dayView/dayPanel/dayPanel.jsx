@@ -15,15 +15,14 @@ class DayPanel extends React.Component{
   }
 
   addFilter = (type) => (val) => this.props.addDayFilter(type, val);
+  removeFilter = (type) => (val) => this.props.removeDayFilter(type, val);
 
   render(){
     const {toggleEventDialogue, allTags, tags, filter} = this.props;
-    console.log("filter: ");
-    console.log(filter);
 
     return <div className="dayPanel">
       <Link to="/newevent"><AddEventButton handleClick={toggleEventDialogue}/></Link>
-      <div className="dayPanel_box"> <FilterBasket items={filter.tags}/> </div>
+      <div className="dayPanel_box"> <FilterBasket removeFilter={this.removeFilter} items={filter.tags}/> </div>
       <div className="dayPanel_box"> <FilterPanel addFilter={this.addFilter("tags")} filterList={tags}/> </div>
       <div className="dayPanel_box"> <FilterPanel addFilter={this.addFilter("tags")} filterList={tags}/> </div>
     </div>
@@ -43,9 +42,9 @@ function AddEventButton(props){
 }
 
 function FilterBasket(props){
-  const {items} = props;
+  const {items, removeFilter} = props;
   return <div className="filterBasket">
-    {items.map(i => <div className="FilterBasket_item">{i}</div>)}
+    {items.map(i => <div className="FilterBasket_item" onClick={() => removeFilter("tags")(i)}>{i}</div>)}
   </div>
 }
 

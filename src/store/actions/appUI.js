@@ -7,3 +7,11 @@ export function addDayFilter(filterType, val){
     val
   }
 }
+
+export function removeDayFilter(filterType, val){
+  return {
+    type: "REMOVE_DAY_FILTER",
+    filterType,
+    val
+  }
+}

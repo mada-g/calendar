@@ -7,20 +7,19 @@ import DiaryEntry from '../diaryEntry/diaryEntry.jsx';
 export default class Diary extends React.Component{
   constructor(props){
     super(props);
+    this.state = { filtered: {reg: [], day: []} }
   }
 
   componentWillReceiveProps = (newProps) => {
-    const {metaD} = newProps.daydata;
+    const {reg, day} = this.filterEntries(newProps.filter, newProps.daydata);
+    this.setState({ filtered: {reg, day} });
   }
 
-  filterEntries = () => {
-    const {eids: {reg}, events, metaD} = this.props.daydata;
-    const {filter: {tags, people}} = this.props;
-
+  filterEntries = ({tags, people}, {eids: {reg}, events, metaD}) => {
     let dayTags = metaD["tags"] || {};
     let filtered = {reg: [], day: []};
 
-    let filtered.reg = this.filterByTag(reg || [], tags, dayTags);
+    filtered.reg = this.filterByTag(reg || [], tags, dayTags);
 
     console.log("FILTER: ");
     console.log(filtered);
@@ -37,17 +36,18 @@ export default class Diary extends React.Component{
     return this.filterByTag(_filtered, tags.slice(1), dayTags);
   }
 
-  renderEntries = (eids, events) => {
-    return eids.map((eid) => {
-      return <DiaryEntry data={events[eid]}/>
+  renderEntries = (events) => {
+    const {reg, day} = this.state.filtered;
+
+    return reg.map((r) => {
+      return <DiaryEntry data={events[r]}/>
     })
   }
 
   render(){
-    this.filterEntries();
     const {eids: {reg}, events} = this.props.daydata;
     return <div className="diary">
-      {this.renderEntries(reg, events)}
+      {this.renderEntries(events)}
     </div>
   }
 }

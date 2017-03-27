@@ -24,6 +24,7 @@ export default class DiaryEntry extends React.Component{
       <EntryTime start={this.formatTime(start)} end={this.formatTime(end)}/>
       <EntryTitle title={title}/>
       <Description description={description}/>
+      <EntryTags tags={tags}/>
   </div>
   }
 }
