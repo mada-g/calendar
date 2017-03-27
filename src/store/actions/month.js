@@ -3,6 +3,7 @@ import {Calendar} from "calendar";
 import {browserHistory} from 'react-router';
 
 import {fetchMonthData} from "../../utils/fetch-data.js";
+import {listFromKeys} from "../../utils/utils.js";
 
 let calendar = new Calendar(1);
 
@@ -40,22 +41,24 @@ export function openDay(day, history){
 
 export function gatherTags(){
   return (dispatch, getState) => {
-    let tagsObj = {}, tags = [];
+    let tagsObj = {}, peopleObj = {};
 
-    let days = getState().getIn(["viewMonth", "daysMetaD"]);
-    if(days) days = days.toJS();
+    let days = getState().getIn(["viewMonth", "daysMetaD"], Map()).toJS();
 
     for(let d in days){
-      const dayTags = days[d]["metaD"]["tags"] || {};
+      const metaD = days[d]["metaD"] || {};
+      const dayTags = metaD["tags"] || {};
+      const dayPeople = metaD["people"] || {};
+
       for(let t in dayTags)
         if(dayTags.hasOwnProperty(t)) tagsObj[t] = true;
+
+      for(let p in dayPeople)
+        if(dayPeople.hasOwnProperty(p)) peopleObj[p] = true;
     }
 
-    for(let k in tagsObj){
-      if(tagsObj.hasOwnProperty(k)) tags.push(k);
-    }
-
-    dispatch({type: "POPULATE_TAGS", val: tags});
+    dispatch({ type: "SET_MONTH_TAGS", val: listFromKeys(tagsObj) });
+    dispatch({ type: "SET_MONTH_PEOPLE", val: listFromKeys(peopleObj)})
   }
 
 }

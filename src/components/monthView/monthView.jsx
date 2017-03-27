@@ -6,6 +6,7 @@ import "./monthView.scss";
 
 import actions from '../../store/actions.js';
 
+import MonthPanel from './monthPanel/monthPanel.jsx';
 import Table from './table/table.jsx';
 import DayWidget from './dayWidget/dayWidget.jsx';
 import MonthTitle from './monthTitle/monthTitle.jsx';
@@ -26,19 +27,18 @@ class MonthView extends React.Component{
   render(){
     const {table, daysMetaD, dayNames, tags} = this.props.monthdata;
     const {month} = this.props.date;
-    //const {viewMonth: {table, daysMetaD, dayNames}, date: {month}} = this.props.state;
 
     const {openDay, changeMonth} = this.props;
 
-    console.log("$$$$$$$$$$$$$$$$$$");
-    console.log(tags);
-    console.log("$$$$$$$$$$$$$$$$$$");
-
     return <div className="monthView">
-      <MonthTitle month={month} changeMonth={changeMonth}/>
-      <div className="monthView_table">
-        <WeekHeader labels={dayNames}/>
-        <Table data={table} cell={<DayWidget currentMonth={month} openDay={openDay} getMetaD={this.getDayMetaD}/>} />
+      <div className="monthView_box_panel"> <MonthPanel tags={tags}/> </div>
+
+      <div className="monthView_main">
+        <MonthTitle month={month} changeMonth={changeMonth}/>
+        <div className="monthView_table">
+          <WeekHeader labels={dayNames}/>
+          <Table data={table} cell={<DayWidget currentMonth={month} openDay={openDay} getMetaD={this.getDayMetaD}/>} />
+        </div>
       </div>
     </div>
   }

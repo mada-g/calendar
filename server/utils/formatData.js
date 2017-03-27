@@ -19,6 +19,7 @@ export function unpackDayData(_data){
   console.log(_data);
 
   if(_data["tags"]) obj.allTags = _data["tags"];
+  if(_data["people"]) obj.allPeople = _data["people"];
 
   if(_data["days"] && _data["days"][0]){
     let data = _data["days"][0];
@@ -42,14 +43,19 @@ export function packDayData(dId, data){
   if(!data) throw "no data";
 
   let _tags = [];
+  let _people = [];
 
   console.log(data);
   let _date = data["date"];
 
   let dayTags = data["metaD"]["tags"] || {};
+  let dayPeople = data["metaD"]["people"] || {};
 
   for(let k in dayTags)
     if(dayTags.hasOwnProperty(k)) _tags.push(k);
+
+  for(let p in dayPeople)
+    if(dayPeople.hasOwnProperty(p)) _people.push(p);
 
   let obj = {
     main: {
@@ -63,7 +69,8 @@ export function packDayData(dId, data){
       dId: dId
     },
 
-    tags: _tags
+    tags: _tags,
+    people: _people
   }
 
   return obj;

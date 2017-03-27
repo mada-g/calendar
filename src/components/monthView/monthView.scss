@@ -1,10 +1,44 @@
-.monthView{
+$panelWidth : 320px;
+$cellMargin : 3px;
+
+@mixin cellSize($scr){
+  @media screen and (min-width: $scr){
+    width: ($scr - $panelWidth)/7 - 2*$cellMargin - 6px;
+  }
+}
+
+.monthView, .monthView_main{
   position: relative;
   width: 100%;
   text-align: center;
 }
 
+.monthView_box_panel{
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-color: red;
+  width: $panelWidth;
+  border: 1px solid black;
+  box-sizing: border-box;
+}
+
+.monthView_main{
+  padding-left: $panelWidth;
+  border: 1px solid black;
+  box-sizing: border-box;
+}
+
 .monthView_table{
   position: relative;
+  border: 1px solid black;
+  box-sizing: border-box;
   display: inline-block;
+}
+
+
+.monthView_table .table_cell{
+  margin: 0 $cellMargin;
+  @include cellSize(720px);
+  @include cellSize(920px);
 }

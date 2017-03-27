@@ -17,23 +17,22 @@ export default class Diary extends React.Component{
 
   filterEntries = ({tags, people}, {eids: {reg}, events, metaD}) => {
     let dayTags = metaD["tags"] || {};
+    let dayPeople = metaD["people"] || {};
     let filtered = {reg: [], day: []};
 
-    filtered.reg = this.filterByTag(reg || [], tags, dayTags);
+    filtered.reg = this.filterOne(reg || [], tags, dayTags);
+    filtered.reg = this.filterOne(filtered.reg, people, dayPeople);
 
-    console.log("FILTER: ");
-    console.log(filtered);
     return filtered;
   }
 
-  filterByTag = (filtered, tags, dayTags) => {
-    console.log(tags);
-    if(tags.length == 0 || filtered.length == 0) return filtered;
-    let t = tags[0];
-    let eids = dayTags[t] || {};
+  filterOne = (filtered, arr, allItems) => {
+    if(arr.length == 0 || filtered.length == 0) return filtered;
+    let t = arr[0];
+    let eids = allItems[t] || {};
     let _filtered = filtered.filter(i => eids.hasOwnProperty(i));
 
-    return this.filterByTag(_filtered, tags.slice(1), dayTags);
+    return this.filterOne(_filtered, arr.slice(1), allItems);
   }
 
   renderEntries = (events) => {

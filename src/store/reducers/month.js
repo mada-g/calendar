@@ -10,8 +10,12 @@ export default function(state = Map(), action){
       return state.set("daysMetaD", action.val);
     }
 
-    case "POPULATE_TAGS": {
+    case "SET_MONTH_TAGS": {
       return state.set("tags", fromJS(action.val) || List());
+    }
+
+    case "SET_MONTH_PEOPLE": {
+      return state.set("people", fromJS(action.val) || List());
     }
 
     default: {

@@ -1,0 +1,29 @@
+.monthPanel{
+  position: relative;
+  background-color: lightgrey;
+  width: 100%;
+}
+
+.monthPanel_filter_search{
+  position: relative;
+}
+
+.monthPanel_search_box{
+  padding: 5px;
+  border: 1px solid black;
+  box-sizing: border-box;
+
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.monthPanel_search_bar,
+.monthPanel_search_button {
+  position: relative;
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.monthPanel_search_bar{
+  width: 100px;
+}

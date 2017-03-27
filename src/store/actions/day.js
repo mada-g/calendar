@@ -6,20 +6,24 @@ import {isDateValid, listFromKeys} from "../../utils/utils.js";
 import {fetchDayData} from "../../utils/fetch-data.js";
 import {saveDayData} from "../../utils/send-data.js";
 
-export function createEvent({duration, title, description, isAllDay, tags}, history){
+export function createEvent({duration, title, description, isAllDay, tags, people}, history){
   return (dispatch) => {
     let eId = shortid.generate();
 
     let _tags = listFromKeys(tags);
+    let _people = listFromKeys(people);
+
+    //console.log("people: " );
+    //console.log(_people);
 
     if(!isAllDay){
       let [start, end] = duration.map(d => d.map(t => parseInt(t)));
       dispatch({ type : "CREATE_REG_EVENT",
-                 val  : {eId, start, end, title, description, isAllDay, tags:_tags} });
+                 val  : {eId, start, end, title, description, isAllDay, tags:_tags, people:_people} });
     }
     else {
       dispatch({ type : "CREATE_DAY_EVENT",
-                 val  : {eId, title, description, isAllDay, tags:_tags} });
+                 val  : {eId, title, description, isAllDay, tags:_tags, people:_people} });
     }
 
     dispatch(saveDay());
@@ -76,6 +80,7 @@ export function setDayData(year, month, day, data){
 
     if(year == y && month == m && day == d){
       if(data !== null && "allTags" in data) dispatch({type:"SET_ALL_TAGS", val:data["allTags"]});
+      if(data !== null && "allPeople" in data) dispatch({type:"SET_ALL_PEOPLE", val:data["allPeople"]});
 
       if(data !== null && "metaD" in data && "eids" in data && "filtered" in data && "events" in data){
         dispatch({type: "SET_DAY_DATA", val:data})

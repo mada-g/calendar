@@ -6,7 +6,7 @@ export default function(state = Map(), action){
   switch (action.type) {
 
     case "CREATE_REG_EVENT": {
-      const {eId, title, start, end, description, isAllDay, tags} = action.val;
+      const {eId, title, start, end, description, isAllDay, tags, people} = action.val;
       let index = null;
       let events = state.get("events");
       state.getIn(["eids","reg"]).forEach((entry,i,th) => {
@@ -20,9 +20,11 @@ export default function(state = Map(), action){
 
       if(index === null) index = state.getIn(["eids","reg"]).size;
 
-      let _state = insertTags(state, tags, eId);
+      let _state = insertMeta(state, "tags", tags, eId);
+          _state = insertMeta(_state, "people", people, eId);
+
       return _state.updateIn(["eids","reg"], e => e.insert(index, eId))
-                  .setIn(["events", eId], fromJS(action.val))
+                   .setIn(["events", eId], fromJS(action.val))
     }
 
     case "CREATE_DAY_EVENT": {
@@ -56,6 +58,10 @@ export default function(state = Map(), action){
       return state.set("allTags", fromJS(action.val));
     }
 
+    case "SET_ALL_PEOPLE": {
+      return state.set("allPeople", fromJS(action.val));
+    }
+
     case "ADD_FILTER": {
 
     }
@@ -68,19 +74,10 @@ export default function(state = Map(), action){
 }
 
 
-function insertTags(state, tags, eId){
+function insertMeta(state, metaType, tags, eId){
   let _state = state;
   tags.forEach(t => {
-    _state = _state.setIn(["metaD", "tags", t, eId], true);
+    _state = _state.setIn(["metaD", metaType, t, eId], true);
   })
-  return _state;
-}
-
-function insertInMeta(state, type, vals, eid){
-  let _state = state;
-  vals.forEach(v => {
-    _state =  _state.updateIn(["metaD", type, v], List(), eids => eids.push(eid));
-  })
-
   return _state;
 }

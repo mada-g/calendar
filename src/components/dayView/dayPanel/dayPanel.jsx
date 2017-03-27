@@ -18,13 +18,13 @@ class DayPanel extends React.Component{
   removeFilter = (type) => (val) => this.props.removeDayFilter(type, val);
 
   render(){
-    const {toggleEventDialogue, allTags, tags, filter} = this.props;
+    const {toggleEventDialogue, allTags, tags, people, filter} = this.props;
 
     return <div className="dayPanel">
       <Link to="/newevent"><AddEventButton handleClick={toggleEventDialogue}/></Link>
-      <div className="dayPanel_box"> <FilterBasket removeFilter={this.removeFilter} items={filter.tags}/> </div>
+      <div className="dayPanel_box"> <FilterBasket removeFilter={this.removeFilter} items={filter}/> </div>
       <div className="dayPanel_box"> <FilterPanel addFilter={this.addFilter("tags")} filterList={tags}/> </div>
-      <div className="dayPanel_box"> <FilterPanel addFilter={this.addFilter("tags")} filterList={tags}/> </div>
+      <div className="dayPanel_box"> <FilterPanel addFilter={this.addFilter("people")} filterList={people}/> </div>
     </div>
   }
 }
@@ -42,18 +42,25 @@ function AddEventButton(props){
 }
 
 function FilterBasket(props){
-  const {items, removeFilter} = props;
+  const {items: {tags, people}, removeFilter} = props;
   return <div className="filterBasket">
-    {items.map(i => <div className="FilterBasket_item" onClick={() => removeFilter("tags")(i)}>{i}</div>)}
+    <div>
+      {tags.map(t => <div className="FilterBasket_item" onClick={() => removeFilter("tags")(t)}>{t}</div>)}
+    </div>
+    <div>
+      {people.map(p => <div className="FilterBasket_item" onClick={() => removeFilter("people")(p)}>{p}</div>)}
+    </div>
   </div>
 }
 
 
 function mapState(state){
   let _tags = state.getIn(["viewDay", "metaD", "tags"], Map()).toJS();
+  let _people = state.getIn(["viewDay", "metaD", "people"], Map()).toJS();
 
   return {
-    tags: listFromKeys(_tags)
+    tags: listFromKeys(_tags),
+    people: listFromKeys(_people)
   }
 }
 

@@ -25,7 +25,7 @@ class DayView extends React.Component{
   }
 
   render(){
-    const {allTags, date, daydata, createEvent, filter} = this.props;
+    const {allTags, allPeople, date, daydata, createEvent, filter} = this.props;
 
     return <HashRouter hashType="noslash">
       <div className="dayView">
@@ -33,7 +33,7 @@ class DayView extends React.Component{
           <DayTitle title={date}/>
 
           <Switch>
-            <Route path="/newevent" render={p => <AddEventDialogue createEvent={createEvent} allTags={allTags}/>} />
+            <Route path="/newevent" render={p => <AddEventDialogue createEvent={createEvent} allPeople={allPeople} allTags={allTags}/>} />
             <Route render={p => <DayContent filter={filter} daydata={daydata} date={date} toggleEventDialogue={this.toggleEventDialogue}/>}/>
           </Switch>
 
@@ -76,7 +76,7 @@ function mapState(state){
     daydata: state.get("viewDay").toJS(),
     date: state.getIn(["viewDay", "date"]).toJS(),
     allTags: state.getIn(["viewDay", "allTags"]).toJS(),
-
+    allPeople: state.getIn(["viewDay", "allPeople"]).toJS(),
     filter: {
       tags: listFromKeys(_filteredTags),
       people: listFromKeys(_filteredPeople)

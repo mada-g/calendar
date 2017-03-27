@@ -17,7 +17,8 @@ class AddEventDialogue extends React.Component{
       title       : "New Event",
       isAllDay    : false,
       description : "faef efw",
-      tags        : {}
+      tags        : {},
+      people      : {}
     }
   }
 
@@ -30,11 +31,16 @@ class AddEventDialogue extends React.Component{
     this.setState({ tags: _tags });
   }
 
+  addPeople = (txt) => {
+    let _people = Object.assign({}, this.state.people, {[txt] : true});
+    this.setState({ people: _people });
+  }
+
   setVal = key => val => this.setState({[key] : val});
 
   render(){
-    const {duration, title, isAllDay, description, tags} = this.state;
-    const {allTags} = this.props;
+    const {duration, title, isAllDay, description, tags, people} = this.state;
+    const {allTags, allPeople} = this.props;
 
     console.log(tags);
 
@@ -50,6 +56,8 @@ class AddEventDialogue extends React.Component{
       <Description val={description} setVal={this.setVal("description")}/>
 
       <AddTags tags={tags} allTags={allTags} addTag={this.addTag} />
+
+      <AddTags tags={people} allTags={allPeople} addTag={this.addPeople} />
 
       <SubmitButton handleClick = {this.handleCreate}/>
 

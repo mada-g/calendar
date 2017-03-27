@@ -46,7 +46,8 @@ export async function fetchDayData(db, dId){
           as: "day",
           cond: {$eq: ["$$day.dId", dId]},
         }},
-        "tags": 1
+        "tags": 1,
+        "people": 1
       }}
     ])
   }
@@ -68,7 +69,7 @@ export async function update(db, data){
   try { res = await db.update( {username:"Mada", "days.dId": data.main.dId},
                                {
                                  $set: {"days.$": data.main},
-                                 $addToSet: {"tags": {$each: data.tags}}
+                                 $addToSet: {"tags": {$each: data.tags}, "people": {$each: data.people}}
                                }
                              ); }
 
@@ -86,7 +87,7 @@ export async function createDay(db, data){
   try { res = await db.update( {username:"Mada"},
                                {
                                  $push: {"days": data.main},
-                                 $addToSet: {"tags": {$each: data.tags}}
+                                 $addToSet: {"tags": {$each: data.tags}, "people": {$each: data.people}}
                                }
                              ); }
 

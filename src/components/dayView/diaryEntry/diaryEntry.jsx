@@ -18,13 +18,14 @@ export default class DiaryEntry extends React.Component{
   }
 
   render(){
-    const {start, end, title, description, tags, eId} = this.props.data;
+    const {start, end, title, description, tags, people, eId} = this.props.data;
 
     return <div className="diaryEntry clearfix">
       <EntryTime start={this.formatTime(start)} end={this.formatTime(end)}/>
       <EntryTitle title={title}/>
       <Description description={description}/>
-      <EntryTags tags={tags}/>
+      <EntryTags tags={tags || []}/>
+      <EntryPeople people={people || []}/>
   </div>
   }
 }
@@ -53,6 +54,13 @@ function Description(props){
 function EntryTags(props){
   const {tags} = props;
   return <div className="diaryEntry_tags">
-    {tags.map((t) => <div className="tag">{t}</div>)}
+    {tags.map(t => <div className="tag">{t}</div>)}
+  </div>
+}
+
+function EntryPeople(props){
+  const {people} = props;
+  return <div className="diaryEntry_people">
+    {people.map(p => <div className="people">{p}</div>)}
   </div>
 }
